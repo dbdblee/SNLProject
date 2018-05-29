@@ -7,7 +7,7 @@
  */
 
 // Apply the java-library plugin to add support for Java Library
-apply plugin: 'java-library'
+apply plugin: 'java'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -18,12 +18,29 @@ repositories {
 
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'org.apache.commons:commons-math3:3.6.1'
 
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:21.0'
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.21'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
 
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	compile group: 'commons-io', name: 'commons-io', version: '2.4'
+	
+	
+	//spring framework
+	
+    compile('org.springframework:spring-context:4.3.4.RELEASE') {
+    	exclude group: 'commons-logging', module: 'commons-logging'
+    }
+    
+    compile("org.springframework:spring-jdbc:4.3.4.RELEASE")
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+	
+    compile group: 'com.strategicgains', name: 'RestExpress', version: '0.11.3'
+    
+    
+    compileJava.options.encoding = 'UTF-8'
 }
 
