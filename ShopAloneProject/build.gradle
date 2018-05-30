@@ -8,28 +8,39 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java'
-apply plugin: 'base'
-apply plugin: 'sonar-runner'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
 
-ext {
-    javaVersion = 1.8
-    springVersion = "4.0.6.RELEASE"
-    webContainer = 'tomcat8'
-}
+webAppDirName='WebContent'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
-
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
+
+    def tomcatVersion = '8.0.23'
+    compile "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+	compile('javax.servlet:jstl:1.2')
+	
+    compile "org.springframework:spring-webmvc:4.3.4.RELEASE"
+    compile 'cglib:cglib-nodep:2.2.2'
+    compile 'ch.qos.logback:logback-classic:1.0.6'
+
+    runtime "org.springframework:spring-webmvc:4.3.4.RELEASE"
+    runtime 'cglib:cglib-nodep:2.2.2'
+    runtime 'ch.qos.logback:logback-classic:1.0.6'
 
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'org.slf4j:jcl-over-slf4j:1.7.21'
     compile 'ch.qos.logback:logback-classic:1.1.7'
-
 
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 	// https://mvnrepository.com/artifact/commons-io/commons-io
@@ -43,10 +54,12 @@ dependencies {
     }
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
 	compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.6.RELEASE'
+	// https://mvnrepository.com/artifact/org.springframework/spring-web
+	compile group: 'org.springframework', name: 'spring-web', version: '4.3.4.RELEASE'
+
     
     compile("org.springframework:spring-jdbc:4.3.4.RELEASE")
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
-	
     compile group: 'com.strategicgains', name: 'RestExpress', version: '0.11.3'
     
     compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1")
@@ -54,7 +67,10 @@ dependencies {
     compileJava.options.encoding = 'UTF-8'
 }
 
-task help << {
-    println 'gradle :privateWeb:appRun    >> jetty9을 이용한 web server 구동'
-    println 'gradle :privateWeb:tomcatRun >> tomcat8을 이용한 web server 구동'
+task deployToTomcat(dependsOn: 'war') << {
+    copy {
+        from war.archivePath
+        into "/data/apache-tomcat-8.0.23/webapps"
+    }
 }
+
