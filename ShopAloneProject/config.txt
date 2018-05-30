@@ -21,74 +21,75 @@
 
 db
 
------------------------------
+---------------------------------------------
 tb_category(카테고리 정보)
------------------------------
-cate_seq number - 순번
-cate_nm varchar(50) - 카테고리 명
-description varchar(100) - 설명
-expose_order number - 노출 순서
-depth number - 메뉴 뎁스
-expose_yn char - 노출 여부(Y/N)
-use_yn char - 사용 여부(Y/N)
------------------------------
+---------------------------------------------
+cate_seq     int         - 순번
+cate_nm      varchar(50) - 카테고리 명
+description  varchar(100)- 설명
+expose_order int         - 노출 순서
+depth        int         - 메뉴 뎁스
+expose_yn    char        - 노출 여부(Y/N)
+use_yn       char        - 사용 여부(Y/N)
+---------------------------------------------
 
------------------------------
+---------------------------------------------
 tb_user(사용자 정보)
------------------------------
-user_id varchar(30) - 아이디
-user_pw varchar(10) - 비밀번호
-user_nm varchar(30) - 이름
-ph_num  varchar(30) - 연락처
-address varchar(30) - 메일 주소
-point   number      - 포인트
-grade   char        - 유저 등급(신규,일반,골드,탈퇴 신청)
-use_yn  char        - 사용 여부(Y/N)
------------------------------
+---------------------------------------------
+user_id      varchar(30)  - 아이디
+user_pw      varchar(10)  - 비밀번호
+user_nm      varchar(30)  - 이름
+ph_num       varchar(30)  - 연락처
+address      varchar(30)  - 메일 주소
+point        int          - 포인트
+grade        char         - 유저 등급(신규,일반,골드,탈퇴 신청)
+use_yn       char         - 사용 여부(Y/N)
+---------------------------------------------
 
 
------------------------------
+---------------------------------------------
 
 tb_purchase_grp(구매 이력 그룹)
------------------------------
-purchase_seq varchar(30) - 구매 번호
-purchase_dt date        - 구매 시간
-price       number      - 구매 가격
-point       number      - 포인트 사용
------------------------------
+---------------------------------------------
+purchase_seq  int         - 구매 번호
+purchase_dt   date        - 구매 시간
+total_price   int         - 총 구매 가격
+use_point     int         - 사용 포인트
+---------------------------------------------
 
------------------------------
+---------------------------------------------
 tb_purchase_hist(구매 이력)
------------------------------
-purchase_seq varchar(30) - 구매 번호(FK)
-user_id     varchar(30) - 아이디(FK)
-item_id     varchar(30) - 상품ID(FK)
-purchase_dt date        - 구매 시간
-price       number      - 구매 가격
------------------------------
+---------------------------------------------
+purchase_seq int         - 구매 번호(FK)
+user_id      varchar(30) - 아이디(FK)
+item_id      varchar(30) - 상품ID(FK)
+purchase_dt  date        - 구매 시간
+price        int         - 구매 가격
+---------------------------------------------
 
------------------------------
+---------------------------------------------
 tb_event(이벤트 정보)
------------------------------
-event_seq   varchar(30)  - 이벤트 번호
-description varchar(100) - 설명
-start_dt    date         - 노출 시작 시간
-end_dt      date         - 노출 종료 시간
-img_url     varchar(100) - 이미지 URL
-img_url2    varchar(100) - 이미지 URL
-img_url3    varchar(100) - 이미지 URL
-item_info   varchar(500) - 상품 정보
-use_yn      char         - 사용 여부(Y/N)
------------------------------
+---------------------------------------------
+event_seq   int           - 이벤트 번호
+description varchar(1000) - 설명
+start_dt    date          - 노출 시작 시간
+end_dt      date          - 노출 종료 시간
+img_url     varchar(200)  - 이미지 URL
+img_url2    varchar(200)  - 이미지 URL
+img_url3    varchar(200)  - 이미지 URL
+item_info   varchar(500)  - 상품 정보
+use_yn      char          - 사용 여부(Y/N)
+---------------------------------------------
 
------------------------------
+---------------------------------------------
 tb_item(상품 정보)
------------------------------
+---------------------------------------------
 item_id     varchar(30)    - 상품ID
 item_nm     varchar(30)    - 상품명
+item_type	varchar(10)    - 상품종류
 description varchar(100)   - 설명
 img_url     varchar(100)   - 이미지 URL
 img_url2    varchar(100)   - 이미지 URL
 img_url3    varchar(100)   - 이미지 URL
 use_yn      char           - 사용 여부(Y/N)
------------------------------
+---------------------------------------------
