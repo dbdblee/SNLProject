@@ -11,14 +11,26 @@ apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 
-webAppDirName='WebContent'
+webAppDirName='src/main/webapp'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    mavenCentral()
 }
+
+eclipse {
+    // 빌드하고나면 프로젝트정보도 같이 지워지는데, Gradle프로젝트임을 인식시켜줍니다.
+    project.natures "org.springsource.ide.eclipse.gradle.core.nature"
+    wtp {
+        facet {
+            facet name: 'jst.web', version: '3.1'
+            facet name: 'jst.java', version: '1.8'
+        }
+    }
+}
+
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
 
@@ -33,10 +45,6 @@ dependencies {
     compile "org.springframework:spring-webmvc:4.3.4.RELEASE"
     compile 'cglib:cglib-nodep:2.2.2'
     compile 'ch.qos.logback:logback-classic:1.0.6'
-
-    runtime "org.springframework:spring-webmvc:4.3.4.RELEASE"
-    runtime 'cglib:cglib-nodep:2.2.2'
-    runtime 'ch.qos.logback:logback-classic:1.0.6'
 
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'org.slf4j:jcl-over-slf4j:1.7.21'
@@ -74,3 +82,17 @@ task deployToTomcat(dependsOn: 'war') << {
     }
 }
 
+ 
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8' // 인코딩 UTF-8로 통일합니다.
+ 
+test {
+    systemProperties 'property': 'value'
+}
+ 
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
