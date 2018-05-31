@@ -10,13 +10,13 @@
   "directory": "../bower_components/",
   "install": {
     "path": {
-      "css": "src/main/webapp/lib/css",
-      "js": "src/main/webapp/lib/js",
-      "woff": "src/main/webapp/lib/fonts",
-      "woff2": "src/main/webapp/lib/fonts",
-      "eot": "src/main/webapp/lib/fonts",
-      "svg": "src/main/webapp/lib/fonts",
-      "ttf": "src/main/webapp/lib/fonts"
+      "css": "src/main/resources/css",
+      "js": "src/main/resources/js",
+      "woff": "src/main/resources/fonts",
+      "woff2": "src/main/resources/fonts",
+      "eot": "src/main/resources/fonts",
+      "svg": "src/main/resources/fonts",
+      "ttf": "src/main/resources/fonts"
     },
     "sources": {
       "jquery": [
