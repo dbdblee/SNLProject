@@ -1,0 +1,46 @@
+{
+  "name": "ShopAloneProject",
+  "homepage": "https://github.com/dbdblee/SNLProject",
+  "authors": [
+    "dblee <ban5529@naver.com>",
+    "chsong <softsch1@naver.com>"
+  ],
+  "description": "shopping mall for one",
+  "main": "",
+  "directory": "../bower_components/",
+  "install": {
+    "path": {
+      "css": "src/main/webapp/lib/css",
+      "js": "src/main/webapp/lib/js",
+      "woff": "src/main/webapp/lib/fonts",
+      "woff2": "src/main/webapp/lib/fonts",
+      "eot": "src/main/webapp/lib/fonts",
+      "svg": "src/main/webapp/lib/fonts",
+      "ttf": "src/main/webapp/lib/fonts"
+    },
+    "sources": {
+      "jquery": [
+        "../bower_components/jquery/dist/jquery.js",
+        "../bower_components/jquery-slimscroll/jquery.slimscroll.js"
+      ],
+      "bootstrap": [
+        "../bower_components/bootstrap/dist/css/bootstrap.css",
+        "../bower_components/bootstrap/dist/js/bootstrap.js"
+      ]
+    }
+  },
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "jquery": "^3.3.1",
+    "bootstrap": "^4.1.1"
+  }
+}
