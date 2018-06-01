@@ -42,6 +42,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         if (!registry.hasMappingForPattern("/node_modules/**")) {
             registry.addResourceHandler("/node_modules/**").addResourceLocations("classpath:/node_modules/");
         }
+        if (!registry.hasMappingForPattern("/plugins/**")) {
+            registry.addResourceHandler("/plugins/**").addResourceLocations("classpath:/plugins/");
+        }
     }
  
     @Bean
