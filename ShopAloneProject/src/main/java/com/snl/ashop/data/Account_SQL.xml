@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   ITS(Interactive Timeslice) version 1.0
+  
+   Copyright ⓒ 2016 kt corp. All rights reserved.
+   
+   This is a proprietary software of kt corp, and you may not use this file except in 
+   compliance with license agreement with kt corp. Any redistribution or use of this 
+   software, with or without modification shall be strictly prohibited without prior written 
+   approval of kt corp, and the copyright notice above does not evidence any actual or 
+   intended publication of such software. 
+ -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snl.ashop.data.Account_SQL">
+
+	<resultMap type="com.snl.ashop.model.UserInfo" id="UserInfo">
+		<id column="user_id" 				jdbcType="VARCHAR" property="usrId" />
+		<result column="user_pw" 			jdbcType="VARCHAR" property="usrPw"/>
+		<result column="user_nm" 			jdbcType="VARCHAR" property="usrNm"/>		
+		<result column="ph_num" 		jdbcType="VARCHAR" property="accountGroup"/> <!-- ENUM -->
+		<result column="address" 			jdbcType="VARCHAR" property="insDt"/>
+		<result column="point" 			jdbcType="INTEGER" property="updDt"/>
+		<result column="grade" 			jdbcType="VARCHAR" property="useYn"/>
+		<result column="use_yn" 	jdbcType="VARCHAR" property="approvalState"/>
+	</resultMap>
+
+	<!-- 계정 신규 등록 -->
+	<insert id="insert" parameterType="com.snl.ashop.model.UserInfo">
+		INSERT INTO tb_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			user_id, user_pw, user_nm, ph_num, address, grade, use_yn
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{user_id, jdbcType=VARCHAR},
+			#{user_pw, jdbcType=VARCHAR},
+			#{user_nm, jdbcType=VARCHAR},
+			#{ph_num, jdbcType=VARCHAR},
+			#{address, jdbcType=VARCHAR},
+			#{grade, jdbcType=VARCHAR},
+			#{use_yn, jdbcType=VARCHAR}
+		</trim>
+	</insert>
+	
+	<!-- 계정 권한 그룹 출력 -->	
+	<select id="selectAccountDetail" resultMap="AccountMap" parameterType="String">
+		SELECT 
+			user_id   		"user_id"
+			,user_pw		"user_pw"
+			,user_nm		"user_nm"
+			,ph_num			"ph_num"
+			,address		"address"
+			,use_yn			"use_yn"
+			,point			"point"
+			,grade			"grade"
+		FROM tb_user
+		WHERE user_id = #{usr_id, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 계정 목록 데이터 count -->
+	<select id="countAccount" resultType="Integer" parameterType="map">
+		SELECT count(1) 
+		FROM tb_user usr
+		WHERE usr.user_id IS NOT NULL
+		<if test = "search != null and search !=''">
+			<if test="search.user_id != null and search.user_id != ''">
+				AND usr.user_id LIKE CONCAT('%',#{search.usrId},'%')
+			</if>
+			<if test="search.user_nm != null and search.user_nm != ''">
+				AND usr.user_nm LIKE CONCAT('%',#{search.usrNm},'%')
+			</if>
+			<if test="search.grade != null and search.grade != ''">
+				AND usr.grade = #{search.grade}
+			</if>
+			<if test="search.use_yn != null and search.use_yn != ''">
+				AND usr.use_yn = #{search.use_yn}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 계정 목록 데이터 -->
+	<select id="selectAccountList" resultMap="AccountMap" parameterType="map">
+		SELECT  t.*
+		FROM
+		(
+			SELECT 
+				user_id   		"user_id"
+				,user_pw		"user_pw"
+				,user_nm		"user_nm"
+				,ph_num			"ph_num"
+				,address		"address"
+				,use_yn			"use_yn"
+				,point			"point"
+				,grade			"grade"
+			FROM tb_user usr
+			WHERE usr.user_id IS NOT NULL
+			<if test = "search != null and search !=''">
+				<if test="search.user_id != null and search.user_id != ''">
+					AND usr.user_id LIKE CONCAT('%',#{search.usrId},'%')
+				</if>
+				<if test="search.user_nm != null and search.user_nm != ''">
+					AND usr.user_nm LIKE CONCAT('%',#{search.usrNm},'%')
+				</if>
+				<if test="search.grade != null and search.grade != ''">
+					AND usr.grade = #{search.grade}
+				</if>
+				<if test="search.use_yn != null and search.use_yn != ''">
+					AND usr.use_yn = #{search.use_yn}
+				</if>
+			</if>
+	 	) t
+	 	WHERE 1=1
+	 	<if test = "pageModel != null">
+			<![CDATA[
+			 and rownum > #{pageModel.firstNo}
+			 and rownum <= #{pageModel.lastNo}]]>
+		</if>
+	</select>
+	
+	<!-- 계정 상세 데이터 -->
+	<select id="selectByPrimaryKey" resultMap="AccountMap" parameterType="String">
+		SELECT
+			user_id   		"user_id"
+			,user_pw		"user_pw"
+			,user_nm		"user_nm"
+			,ph_num			"ph_num"
+			,address		"address"
+			,use_yn			"use_yn"
+			,point			"point"
+			,grade			"grade"
+		FROM tb_user usr
+		WHERE usr.user_id = #{usrId}
+	</select>
+	
+	<!-- 계정 업데이트 -->
+	<update id="updateAccountUseYn" parameterType="com.kt.its.model.AdminUser">
+		UPDATE tb_user
+		<set>
+			use_yn = #{useYn, jdbcType=VARCHAR}
+			,upd_dt = systimestamp
+			<!-- ,upd_id = #{updId, jdbcType=VARCHAR} -->
+			,user_nm = #{usrNm, jdbcType=VARCHAR}
+			,grp_seq = #{grpSeq}
+			,approval_state = #{approvalStateCd}
+		</set>
+		WHERE user_id = #{usrId}
+	</update>
+	
+</mapper>
